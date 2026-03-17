@@ -42,7 +42,7 @@ npm install
 npm run dev
 ```
 
-## 🔜 Próximos pasos (Cursor Pro)
+## 🔜 Próximos pasos 
 
 - Carrito de compras con Zustand
 - Checkout y MercadoPago
@@ -55,4 +55,4 @@ npm run dev
 - SEO con React Helmet
 
 ---
-Hecho con 💚 en Argentina
+
