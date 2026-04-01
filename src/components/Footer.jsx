@@ -7,25 +7,23 @@ export default function Footer() {
 
   return (
     <footer className="bg-(--charcoal) text-white w-full min-w-0 overflow-x-hidden">
-      <div className="max-w-[1200px] mx-auto w-full px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-10">
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-x-8 sm:gap-y-12 lg:gap-12 pb-10 border-b border-white/8 min-w-0"
-        >
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-10 box-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-x-8 lg:gap-x-10 sm:gap-y-12 pb-10 border-b border-white/8 min-w-0">
           {/* Marca */}
-          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1 text-center sm:text-left">
             <img
               src="/logo.webp"
               alt="Verde con Rosa"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
-              className="h-[72px] sm:h-20 w-auto mb-4"
+              className="h-[72px] sm:h-20 w-auto mb-4 mx-auto sm:mx-0"
             />
-            <p className="font-(-font-display)]text-lg text-white mb-3">Verde con Rosa</p>
+            <p className="font-(--font-display) text-lg text-white mb-3">Verde con Rosa</p>
             <p className="text-[13px] text-white/45 leading-relaxed mb-6 max-w-sm">
               Jabones artesanales elaborados con amor, ingredientes naturales y el respeto que tu piel merece.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
               {[
                 { Icon: Instagram, href: '#', label: 'Instagram' },
                 { Icon: Facebook, href: '#', label: 'Facebook' },
@@ -43,9 +41,9 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="min-w-0">
+          <div className="min-w-0 text-center sm:text-left">
             <h4 className="font-(--font-display) text-lg text-white mb-5">Tienda</h4>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3 items-center sm:items-start">
               {['Todos los productos', 'Jabones artesanales', 'Skincare', 'Kits de regalo'].map((item) => (
                 <li key={item}>
                   <Link to="/tienda" className={linkClass}>
@@ -56,9 +54,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="min-w-0">
+          <div className="min-w-0 text-center sm:text-left">
             <h4 className="font-(--font-display) text-lg text-white mb-5">Información</h4>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3 items-center sm:items-start">
               {['Nosotros', 'Ingredientes', 'Política de envíos', 'Preguntas frecuentes', 'Programa de revendedoras'].map(
                 (item) => (
                   <li key={item}>
@@ -71,24 +69,24 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1 text-center sm:text-left">
             <h4 className="font-(--font-display) text-lg text-white mb-5">Contacto</h4>
-            <ul className="flex flex-col gap-4 text-sm">
-              <li className="flex gap-3 items-start min-w-0">
+            <ul className="flex flex-col gap-4 text-sm items-center sm:items-start">
+              <li className="flex gap-3 items-start min-w-0 max-w-full justify-center sm:justify-start text-left">
                 <MapPin size={16} className="text-(--rose) shrink-0 mt-0.5" />
-                <span className="text-white/70 wrap-break-words">Buenos Aires, Argentina</span>
+                <span className="text-white/70 wrap-break-words text-left">Buenos Aires, Argentina</span>
               </li>
-              <li className="flex gap-3 items-center min-w-0">
+              <li className="flex gap-3 items-center min-w-0 justify-center sm:justify-start">
                 <Phone size={16} className="text-(--rose) shrink-0" />
-                <a href="tel:+541100000000" className="text-white/70 hover:text-(--rose) transition-colors break-all">
+                <a href="tel:+541100000000" className="text-white/70 hover:text-(--rose) transition-colors break-all text-left">
                   +54 11 0000-0000
                 </a>
               </li>
-              <li className="flex gap-3 items-center min-w-0">
+              <li className="flex gap-3 items-center min-w-0 justify-center sm:justify-start">
                 <Mail size={16} className="text-(--rose) shrink-0" />
                 <a
                   href="mailto:hola@verdeconrosa.com"
-                  className="text-white/70 hover:text-(--rose) transition-colors break-all"
+                  className="text-white/70 hover:text-(--rose) transition-colors break-all text-left"
                 >
                   hola@verdeconrosa.com
                 </a>

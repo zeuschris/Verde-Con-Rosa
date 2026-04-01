@@ -101,7 +101,7 @@ export default function ProductPage() {
         }}
       />
 
-      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-w-0">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-w-0 box-border">
         {/* Cabecera: volver + migas */}
         <div className="mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
           <Link
@@ -120,13 +120,13 @@ export default function ProductPage() {
           </nav>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-14 items-start mb-12 lg:mb-16 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-x-14 xl:gap-x-16 lg:gap-y-10 items-start mb-14 lg:mb-20 min-w-0 w-full">
           {/* Galería */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full min-w-0 max-w-full lg:sticky lg:top-24 xl:top-28 space-y-4 sm:space-y-5"
+            className="w-full min-w-0 max-w-full lg:max-w-none lg:sticky lg:top-24 xl:top-28 space-y-4 sm:space-y-5 isolate"
           >
             <div className="rounded-[22px] sm:rounded-[28px] bg-(--warm-white) border border-(--border) p-2.5 sm:p-4 shadow-[0_8px_40px_rgba(42,42,42,0.05)] w-full min-w-0">
               <div className="relative group rounded-[18px] sm:rounded-[22px] overflow-hidden aspect-square w-full max-w-full">
@@ -206,10 +206,10 @@ export default function ProductPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="w-full min-w-0 max-w-full rounded-[22px] sm:rounded-[28px] border border-(--border) bg-(--warm-white) p-5 sm:p-7 lg:p-10 shadow-[0_8px_48px_rgba(42,42,42,0.06)] flex flex-col"
+            className="w-full min-w-0 max-w-full rounded-[22px] sm:rounded-[28px] border border-(--border) bg-(--warm-white) p-5 sm:p-7 lg:p-10 shadow-[0_8px_48px_rgba(42,42,42,0.06)] flex flex-col isolate"
             style={{ fontFamily: 'var(--font-body)' }}
           >
-            <div className="flex flex-wrap items-center gap-2 mb-5">
+            <div className="flex flex-wrap items-center gap-2 mb-5 relative z-1">
               <span className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium">{product.category}</span>
               {product.badge && (
                 <span className="text-[10px] tracking-widest bg-(--sage) text-white px-3 py-1 rounded-full font-medium">

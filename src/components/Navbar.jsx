@@ -32,44 +32,43 @@ export default function Navbar() {
             : 'bg-transparent'
         }`}
       >
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-[72px] md:h-20 flex items-center">
-          {/* Logo — columna izquierda */}
-          <Link to="/" className="flex items-center gap-3 group relative z-20 shrink-0">
-            <img
-              src="/logo.webp"
-              alt="Verde con Rosa"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                if (e.currentTarget.nextElementSibling) {
-                  e.currentTarget.nextElementSibling.style.display = 'block'
-                }
-              }}
-              className="h-14 w-auto md:h-[72px] transition-transform duration-300 cursor-pointer group-hover:scale-105"
-            />
-            <span
-              style={{
-                display: 'none',
-                fontFamily: 'var(--font-display)',
-                fontSize: '20px',
-                color: 'var(--charcoal)',
-                fontWeight: 400,
-              }}
-            >
-              Verde con Rosa
-            </span>
-          </Link>
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+          {/* Grid: móvil logo | acciones · desktop [logo][menú centrado][acciones] */}
+          <div className="grid h-[72px] md:h-20 grid-cols-[1fr_auto] md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-3 md:gap-4">
+            <Link to="/" className="flex items-center gap-3 group justify-self-start min-w-0">
+              <img
+                src="/logo.webp"
+                alt="Verde con Rosa"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                  if (e.currentTarget.nextElementSibling) {
+                    e.currentTarget.nextElementSibling.style.display = 'block'
+                  }
+                }}
+                className="h-12 w-auto sm:h-14 md:h-[68px] shrink-0 transition-transform duration-300 cursor-pointer group-hover:scale-105"
+              />
+              <span
+                style={{
+                  display: 'none',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '20px',
+                  color: 'var(--charcoal)',
+                  fontWeight: 400,
+                }}
+              >
+                Verde con Rosa
+              </span>
+            </Link>
 
-          {/* Desktop Nav — centrado en el viewport */}
-          <nav
-            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-6 lg:gap-10 z-10 pointer-events-none"
-            aria-label="Principal"
-          >
-            <div className="flex items-center gap-6 lg:gap-10 pointer-events-auto">
+            <nav
+              className="hidden md:flex md:col-start-2 items-center justify-center gap-6 lg:gap-10"
+              aria-label="Principal"
+            >
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`text-sm font-normal tracking-wide whitespace-nowrap transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-px after:bg-(--rose) after:transition-all after:duration-300 ${
+                  className={`text-sm font-normal tracking-wide whitespace-nowrap transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-px after:bg-(--rose) after:transition-all after:duration-300 ${
                     pathname === link.to
                       ? 'text-(--sage-dark) after:w-full'
                       : 'text-(--charcoal) hover:text-(--rose) after:w-0 hover:after:w-full'
@@ -78,34 +77,33 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-            </div>
-          </nav>
+            </nav>
 
-          {/* Acciones — derecha */}
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 ml-auto relative z-20 shrink-0">
-            <button
-              type="button"
-              className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose)"
-              aria-label="Buscar"
-            >
-              <Search size={18} />
-            </button>
-            <button
-              type="button"
-              className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose) relative"
-              aria-label="Carrito"
-            >
-              <ShoppingBag size={18} />
-            </button>
-            <button
-              type="button"
-              className="md:hidden p-2 rounded-full hover:bg-(--sage-light) transition-colors"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <div className="flex items-center justify-end gap-1.5 sm:gap-2 md:gap-3 justify-self-end md:col-start-3 shrink-0">
+              <button
+                type="button"
+                className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose)"
+                aria-label="Buscar"
+              >
+                <Search size={18} />
+              </button>
+              <button
+                type="button"
+                className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose) relative"
+                aria-label="Carrito"
+              >
+                <ShoppingBag size={18} />
+              </button>
+              <button
+                type="button"
+                className="md:hidden p-2 rounded-full hover:bg-(--sage-light) transition-colors"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              >
+                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
