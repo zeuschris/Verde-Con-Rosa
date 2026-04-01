@@ -91,19 +91,19 @@ export default function ProductPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-(--cream) pt-28 pb-16 lg:pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-(--cream) pt-22 sm:pt-24 md:pt-28 pb-12 sm:pb-16 lg:pb-24 relative w-full min-w-0 overflow-x-hidden">
       <div
-        className="pointer-events-none absolute top-0 right-0 w-[min(600px,90vw)] h-[600px] rounded-full opacity-50"
+        className="pointer-events-none absolute top-0 right-0 w-[min(600px,100vw)] max-w-[600px] h-[min(600px,80vh)] rounded-full opacity-40 sm:opacity-50"
         style={{
           backgroundColor: 'var(--rose-light)',
           filter: 'blur(80px)',
-          transform: 'translate(30%, -25%)',
+          transform: 'translate(25%, -20%)',
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 relative z-10">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-w-0">
         {/* Cabecera: volver + migas */}
-        <div className="mb-10 lg:mb-12 space-y-4">
+        <div className="mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
           <Link
             to="/tienda"
             className="inline-flex items-center gap-2 text-sm text-(--muted) hover:text-(--charcoal) transition-colors font-(--font-body)"
@@ -111,25 +111,25 @@ export default function ProductPage() {
             <ArrowLeft size={15} strokeWidth={1.75} />
             Volver a la tienda
           </Link>
-          <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-(--muted) font-(--font-body)">
-            <Link to="/" className="hover:text-(--charcoal) transition-colors">Inicio</Link>
-            <span className="text-(--border)">/</span>
-            <Link to="/tienda" className="hover:text-(--charcoal) transition-colors">Tienda</Link>
-            <span className="text-(--border)">/</span>
-            <span className="text-(--charcoal) truncate max-w-[min(100%,280px)]">{product.name}</span>
+          <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-(--muted) font-(--font-body) min-w-0">
+            <Link to="/" className="hover:text-(--charcoal) transition-colors shrink-0">Inicio</Link>
+            <span className="text-(--border) shrink-0">/</span>
+            <Link to="/tienda" className="hover:text-(--charcoal) transition-colors shrink-0">Tienda</Link>
+            <span className="text-(--border) shrink-0">/</span>
+            <span className="text-(--charcoal) min-w-0 wrap-anywhere">{product.name}</span>
           </nav>
         </div>
 
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] gap-10 lg:gap-12 xl:gap-14 items-start mb-14 lg:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-14 items-start mb-12 lg:mb-16 min-w-0">
           {/* Galería */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="lg:sticky lg:top-28 space-y-5"
+            className="w-full min-w-0 max-w-full lg:sticky lg:top-24 xl:top-28 space-y-4 sm:space-y-5"
           >
-            <div className="rounded-[28px] bg-(--warm-white) border border-(--border) p-3 sm:p-4 shadow-[0_8px_40px_rgba(42,42,42,0.05)]">
-              <div className="relative group rounded-[22px] overflow-hidden aspect-square">
+            <div className="rounded-[22px] sm:rounded-[28px] bg-(--warm-white) border border-(--border) p-2.5 sm:p-4 shadow-[0_8px_40px_rgba(42,42,42,0.05)] w-full min-w-0">
+              <div className="relative group rounded-[18px] sm:rounded-[22px] overflow-hidden aspect-square w-full max-w-full">
                 <button
                   type="button"
                   onClick={() => setLightboxOpen(true)}
@@ -174,15 +174,15 @@ export default function ProductPage() {
 
             {multi && (
               <div
-                className="flex gap-2.5 sm:gap-3 overflow-x-auto pb-2 pt-1 -mx-1 px-1 snap-x snap-mandatory"
-                style={{ scrollbarWidth: 'thin' }}
+                className="flex gap-2 sm:gap-3 overflow-x-auto overflow-y-hidden pb-2 pt-1 w-full max-w-full min-w-0 snap-x snap-mandatory overscroll-x-contain px-0.5"
+                style={{ scrollbarWidth: 'thin', WebkitOverflowScrolling: 'touch' }}
               >
                 {galleryImages.map((src, i) => (
                   <button
                     key={src + i}
                     type="button"
                     onClick={() => setActiveIndex(i)}
-                    className={`shrink-0 snap-start w-[88px] h-[88px] sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
+                    className={`shrink-0 snap-start w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] md:w-24 md:h-24 rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
                       i === activeIndex
                         ? 'border-(--sage-dark) ring-[3px] ring-(--sage-light) scale-[1.02]'
                         : 'border-(--border) opacity-75 hover:opacity-100 hover:border-(--sage)'
@@ -195,9 +195,9 @@ export default function ProductPage() {
               </div>
             )}
 
-            <p className="flex items-center justify-center sm:justify-start gap-2 text-xs text-(--muted) font-(--font-body)">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-(--sage-light) text-(--sage-dark) text-[13px]" aria-hidden>⤢</span>
-              Toca la imagen para verla en grande
+            <p className="flex items-start sm:items-center justify-center sm:justify-start gap-2 text-[11px] sm:text-xs text-(--muted) font-(--font-body) text-center sm:text-left px-1">
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-(--sage-light) text-(--sage-dark) text-[13px]" aria-hidden>⤢</span>
+              <span className="min-w-0">Toca la imagen para verla en grande</span>
             </p>
           </motion.div>
 
@@ -206,7 +206,7 @@ export default function ProductPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="rounded-[28px] border border-(--border) bg-(--warm-white) p-6 sm:p-8 lg:p-10 shadow-[0_8px_48px_rgba(42,42,42,0.06)] flex flex-col"
+            className="w-full min-w-0 max-w-full rounded-[22px] sm:rounded-[28px] border border-(--border) bg-(--warm-white) p-5 sm:p-7 lg:p-10 shadow-[0_8px_48px_rgba(42,42,42,0.06)] flex flex-col"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             <div className="flex flex-wrap items-center gap-2 mb-5">
@@ -219,13 +219,13 @@ export default function ProductPage() {
             </div>
 
             <h1
-              className="text-[clamp(1.85rem,4.5vw,2.75rem)] text-(--charcoal) mb-5 leading-[1.12]"
+              className="text-[clamp(1.65rem,5vw,2.75rem)] text-(--charcoal) mb-5 leading-[1.12] wrap-anywhere"
               style={{ fontFamily: 'var(--font-display)', fontWeight: 300 }}
             >
               {product.name}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-3 mb-8 pb-8 border-b border-(--border)">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-(--border)">
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
@@ -250,11 +250,11 @@ export default function ProductPage() {
                 </p>
                 <span className="text-sm text-(--muted) pb-1.5">ARS · impuestos incluidos</span>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2 max-w-full">
                 {trustItems.map(({ icon: Icon, label }) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-(--sage-dark) bg-(--sage-light)/80 px-3 py-1.5 rounded-full border border-(--sage-light)"
+                    className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-medium text-(--sage-dark) bg-(--sage-light)/80 px-2.5 sm:px-3 py-1.5 rounded-full border border-(--sage-light) max-w-full"
                   >
                     <Icon size={13} className="shrink-0 opacity-80" strokeWidth={2} />
                     {label}
@@ -263,12 +263,12 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <p className="text-[15px] sm:text-base text-(--muted) leading-[1.75] mb-10 max-w-prose">
+            <p className="text-[15px] sm:text-base text-(--muted) leading-[1.75] mb-8 sm:mb-10 max-w-prose min-w-0">
               {product.description}
             </p>
 
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold mb-4 flex items-center gap-2 text-(--charcoal) tracking-tight">
+            <div className="mb-8 sm:mb-10">
+              <h3 className="text-sm font-semibold mb-3 sm:mb-4 flex items-center gap-2 text-(--charcoal) tracking-tight">
                 <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-(--sage-light)">
                   <Leaf size={16} className="text-(--sage)" />
                 </span>
@@ -312,17 +312,17 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full min-w-0 sm:items-stretch">
                 <button
                   type="button"
-                  className="inline-flex h-[52px] flex-1 sm:flex-none sm:min-w-[min(100%,260px)] items-center justify-center gap-2 rounded-[26px] bg-(--sage-dark) px-8 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(74,122,92,0.35)] hover:bg-(--rose-dark) transition-all duration-300"
+                  className="inline-flex h-[52px] w-full sm:flex-1 sm:min-w-0 md:max-w-[320px] items-center justify-center gap-2 rounded-[26px] bg-(--sage-dark) px-6 sm:px-8 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(74,122,92,0.35)] hover:bg-(--rose-dark) transition-all duration-300"
                 >
                   <ShoppingBag size={18} strokeWidth={2} />
                   Agregar al carrito
                 </button>
                 <button
                   type="button"
-                  className="inline-flex h-[52px] flex-1 sm:w-auto sm:px-8 items-center justify-center gap-2 rounded-[26px] border-2 border-(--border) bg-transparent text-(--charcoal) text-sm font-semibold hover:border-(--rose) hover:text-(--rose) hover:bg-(--rose-light)/30 transition-all duration-300"
+                  className="inline-flex h-[52px] w-full sm:w-auto sm:shrink-0 items-center justify-center gap-2 rounded-[26px] border-2 border-(--border) bg-transparent text-(--charcoal) text-sm font-semibold px-6 sm:px-8 hover:border-(--rose) hover:text-(--rose) hover:bg-(--rose-light)/30 transition-all duration-300"
                 >
                   <Heart size={18} strokeWidth={2} />
                   Guardar
@@ -341,8 +341,8 @@ export default function ProductPage() {
         </div>
 
         {related.length > 0 && (
-          <section className="rounded-[28px] border border-(--border) bg-(--warm-white) px-5 py-12 sm:px-8 sm:py-14 shadow-[0_8px_40px_rgba(42,42,42,0.04)]">
-            <div className="text-center mb-10 sm:mb-12 max-w-lg mx-auto">
+          <section className="w-full min-w-0 max-w-full rounded-[22px] sm:rounded-[28px] border border-(--border) bg-(--warm-white) px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-14 shadow-[0_8px_40px_rgba(42,42,42,0.04)]">
+            <div className="text-center mb-8 sm:mb-10 lg:mb-12 max-w-lg mx-auto px-1">
               <span className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium">Descubre más</span>
               <h2
                 className="text-[clamp(26px,4vw,40px)] font-light text-(--charcoal) mt-3 mb-3"
@@ -355,16 +355,16 @@ export default function ProductPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10">
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-10 w-full min-w-0">
               {related.map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
               ))}
             </div>
 
-            <div className="text-center">
+            <div className="text-center px-2">
               <Link
                 to="/tienda"
-                className="inline-flex items-center gap-2 border-2 border-(--sage-dark) text-(--sage-dark) px-8 sm:px-10 py-3.5 rounded-[24px] text-sm font-semibold transition-all hover:bg-(--sage-dark) hover:text-white"
+                className="inline-flex w-full sm:w-auto max-w-full min-w-0 items-center justify-center gap-2 border-2 border-(--sage-dark) text-(--sage-dark) px-6 sm:px-10 py-3.5 rounded-[24px] text-sm font-semibold transition-all hover:bg-(--sage-dark) hover:text-white"
               >
                 Ver todos los productos
                 <ArrowRight size={15} />
@@ -381,7 +381,7 @@ export default function ProductPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-8 bg-black/88 backdrop-blur-sm"
+            className="fixed inset-0 z-100 flex items-center justify-center p-3 sm:p-6 md:p-8 bg-black/88 backdrop-blur-sm overflow-y-auto overflow-x-hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Vista ampliada"
@@ -397,7 +397,7 @@ export default function ProductPage() {
             </button>
 
             <div
-              className="relative max-w-[min(1100px,100%)] max-h-[85vh] w-full flex items-center justify-center"
+              className="relative max-w-[min(1100px,calc(100vw-1.5rem))] w-full min-w-0 my-auto max-h-[min(85vh,100dvh)] flex items-center justify-center py-8"
               onClick={e => e.stopPropagation()}
             >
               <motion.img

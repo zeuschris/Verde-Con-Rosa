@@ -28,13 +28,13 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-[var(--cream)]/95 backdrop-blur-md shadow-sm'
+            ? 'bg-(--cream)/95 backdrop-blur-md shadow-sm'
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-[72px] md:h-20 flex items-center">
+          {/* Logo — columna izquierda */}
+          <Link to="/" className="flex items-center gap-3 group relative z-20 shrink-0">
             <img
               src="/logo.webp"
               alt="Verde con Rosa"
@@ -44,13 +44,7 @@ export default function Navbar() {
                   e.currentTarget.nextElementSibling.style.display = 'block'
                 }
               }}
-              style={{
-                height: '72px',
-                width: 'auto',
-                transition: 'transform 0.3s',
-                cursor: 'pointer',
-              }}
-              className="group-hover:scale-105 navbar-logo"
+              className="h-14 w-auto md:h-[72px] transition-transform duration-300 cursor-pointer group-hover:scale-105"
             />
             <span
               style={{
@@ -63,44 +57,52 @@ export default function Navbar() {
             >
               Verde con Rosa
             </span>
-            <style>{`
-              @media (max-width: 768px) {
-                .navbar-logo {
-                  height: 56px !important;
-                }
-              }
-            `}</style>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`text-sm font-[400] tracking-wide transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-px after:bg-[var(--rose)] after:transition-all after:duration-300 ${
-                  pathname === link.to
-                    ? 'text-[var(--sage-dark)] after:w-full'
-                    : 'text-[var(--charcoal)] hover:text-[var(--rose)] after:w-0 hover:after:w-full'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          {/* Desktop Nav — centrado en el viewport */}
+          <nav
+            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-6 lg:gap-10 z-10 pointer-events-none"
+            aria-label="Principal"
+          >
+            <div className="flex items-center gap-6 lg:gap-10 pointer-events-auto">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`text-sm font-normal tracking-wide whitespace-nowrap transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-px after:bg-(--rose) after:transition-all after:duration-300 ${
+                    pathname === link.to
+                      ? 'text-(--sage-dark) after:w-full'
+                      : 'text-(--charcoal) hover:text-(--rose) after:w-0 hover:after:w-full'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-full hover:bg-[var(--rose-light)] transition-colors duration-200 text-[var(--charcoal)] hover:text-[var(--rose)]">
+          {/* Acciones — derecha */}
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 ml-auto relative z-20 shrink-0">
+            <button
+              type="button"
+              className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose)"
+              aria-label="Buscar"
+            >
               <Search size={18} />
             </button>
-            <button className="p-2 rounded-full hover:bg-[var(--rose-light)] transition-colors duration-200 text-[var(--charcoal)] hover:text-[var(--rose)] relative">
+            <button
+              type="button"
+              className="p-2 rounded-full hover:bg-(--rose-light) transition-colors duration-200 text-(--charcoal) hover:text-(--rose) relative"
+              aria-label="Carrito"
+            >
               <ShoppingBag size={18} />
             </button>
-            {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-full hover:bg-[var(--sage-light)] transition-colors"
+              type="button"
+              className="md:hidden p-2 rounded-full hover:bg-(--sage-light) transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -108,7 +110,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -116,14 +117,14 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-20 left-0 right-0 z-40 bg-[var(--warm-white)] shadow-lg border-b border-[var(--border)] md:hidden"
+            className="fixed top-[72px] left-0 right-0 z-40 bg-(--warm-white) shadow-lg border-b border-(--border) md:hidden max-h-[calc(100vh-72px)] overflow-y-auto"
           >
-            <nav className="flex flex-col p-6 gap-5">
+            <nav className="flex flex-col p-6 gap-5" aria-label="Móvil">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="text-lg font-[var(--font-display)] text-[var(--charcoal)] hover:text-[var(--rose)] transition-colors"
+                  className="text-lg font-(--font-display) text-(--charcoal) hover:text-(--rose) transition-colors py-1"
                 >
                   {link.label}
                 </Link>

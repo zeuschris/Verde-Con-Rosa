@@ -11,6 +11,7 @@ const badgeColors = {
 export default function ProductCard({ product, index = 0 }) {
   return (
     <motion.div
+      className="min-w-0 w-full max-w-full"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -141,11 +142,13 @@ export default function ProductCard({ product, index = 0 }) {
         <h3
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '16px',
+            fontSize: 'clamp(14px, 3.5vw, 16px)',
             fontWeight: 400,
-            lineHeight: 1.2,
+            lineHeight: 1.25,
             marginBottom: '6px',
             color: 'var(--charcoal)',
+            overflowWrap: 'anywhere',
+            wordBreak: 'break-word',
           }}
         >
           {product.name}
@@ -166,7 +169,15 @@ export default function ProductCard({ product, index = 0 }) {
         </div>
 
         {/* Price + CTA */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '8px',
+            flexWrap: 'wrap',
+          }}
+        >
           <span
             style={{
               fontFamily: 'var(--font-display)',
