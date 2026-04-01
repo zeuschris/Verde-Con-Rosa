@@ -1,7 +1,22 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Star, Leaf, ChevronLeft, ChevronRight, X, ArrowRight } from 'lucide-react'
+import {
+  ArrowLeft,
+  Star,
+  Leaf,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  ArrowRight,
+  Heart,
+  ShoppingBag,
+  Minus,
+  Plus,
+  Truck,
+  Recycle,
+  Sparkles,
+} from 'lucide-react'
 import { products } from '../data/products'
 import ProductCard from '../components/ProductCard'
 
@@ -23,6 +38,7 @@ export default function ProductPage() {
   const galleryImages = product ? getGalleryImages(product) : []
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [qty, setQty] = useState(1)
 
   const goPrev = useCallback(() => {
     setActiveIndex(i => (i - 1 + galleryImages.length) % galleryImages.length)
@@ -34,6 +50,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     setActiveIndex(0)
+    setQty(1)
   }, [product?.id])
 
   useEffect(() => {
@@ -67,9 +84,14 @@ export default function ProductPage() {
   const related = getRelatedProducts(product)
   const multi = galleryImages.length > 1
 
+  const trustItems = [
+    { icon: Sparkles, label: '100% natural' },
+    { icon: Recycle, label: 'Empaque eco' },
+    { icon: Truck, label: 'Envío nacional' },
+  ]
+
   return (
-    <div className="min-h-screen bg-(--cream) pt-28 pb-20 relative overflow-hidden">
-      {/* Decoración tipo landing */}
+    <div className="min-h-screen bg-(--cream) pt-28 pb-16 lg:pb-24 relative overflow-hidden">
       <div
         className="pointer-events-none absolute top-0 right-0 w-[min(600px,90vw)] h-[600px] rounded-full opacity-50"
         style={{
@@ -79,84 +101,91 @@ export default function ProductPage() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-8 relative z-10">
-        <nav className="flex flex-wrap items-center gap-3 text-sm text-(--muted) mb-10 font-(--font-body)">
-          <Link to="/" className="hover:text-(--charcoal) transition-colors">Inicio</Link>
-          <span aria-hidden="true">/</span>
-          <Link to="/tienda" className="hover:text-(--charcoal) transition-colors">Tienda</Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-(--charcoal) truncate max-w-[200px] sm:max-w-none">{product.name}</span>
-        </nav>
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 relative z-10">
+        {/* Cabecera: volver + migas */}
+        <div className="mb-10 lg:mb-12 space-y-4">
+          <Link
+            to="/tienda"
+            className="inline-flex items-center gap-2 text-sm text-(--muted) hover:text-(--charcoal) transition-colors font-(--font-body)"
+          >
+            <ArrowLeft size={15} strokeWidth={1.75} />
+            Volver a la tienda
+          </Link>
+          <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-(--muted) font-(--font-body)">
+            <Link to="/" className="hover:text-(--charcoal) transition-colors">Inicio</Link>
+            <span className="text-(--border)">/</span>
+            <Link to="/tienda" className="hover:text-(--charcoal) transition-colors">Tienda</Link>
+            <span className="text-(--border)">/</span>
+            <span className="text-(--charcoal) truncate max-w-[min(100%,280px)]">{product.name}</span>
+          </nav>
+        </div>
 
-        <Link
-          to="/tienda"
-          className="inline-flex items-center gap-2 text-sm text-(--muted) hover:text-(--charcoal) mb-12 transition-colors font-(--font-body)"
-        >
-          <ArrowLeft size={14} />
-          Volver a la tienda
-        </Link>
-
-        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 mb-24">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] gap-10 lg:gap-12 xl:gap-14 items-start mb-14 lg:mb-16">
           {/* Galería */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.55 }}
-            className="space-y-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:sticky lg:top-28 space-y-5"
           >
-            <div className="relative group">
-              <button
-                type="button"
-                onClick={() => setLightboxOpen(true)}
-                className="w-full text-left rounded-3xl overflow-hidden bg-(--warm-white) border border-(--border) aspect-square cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-(--sage) focus-visible:ring-offset-2 focus-visible:ring-offset-(--cream)"
-                aria-label="Ampliar imagen del producto"
-              >
-                <img
-                  src={galleryImages[activeIndex]}
-                  alt={`${product.name} — imagen ${activeIndex + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </button>
+            <div className="rounded-[28px] bg-(--warm-white) border border-(--border) p-3 sm:p-4 shadow-[0_8px_40px_rgba(42,42,42,0.05)]">
+              <div className="relative group rounded-[22px] overflow-hidden aspect-square">
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  className="absolute inset-0 w-full h-full text-left cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-(--sage) focus-visible:ring-offset-2 focus-visible:ring-offset-(--warm-white) rounded-[22px]"
+                  aria-label="Ampliar imagen del producto"
+                >
+                  <img
+                    src={galleryImages[activeIndex]}
+                    alt={`${product.name} — imagen ${activeIndex + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                </button>
 
-              {multi && (
-                <>
-                  <button
-                    type="button"
-                    onClick={e => { e.stopPropagation(); goPrev() }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 border border-(--border) shadow-md flex items-center justify-center text-(--charcoal) hover:bg-(--sage-light) hover:border-(--sage) transition-colors"
-                    aria-label="Imagen anterior"
-                  >
-                    <ChevronLeft size={22} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={e => { e.stopPropagation(); goNext() }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 border border-(--border) shadow-md flex items-center justify-center text-(--charcoal) hover:bg-(--sage-light) hover:border-(--sage) transition-colors"
-                    aria-label="Imagen siguiente"
-                  >
-                    <ChevronRight size={22} />
-                  </button>
-                  <p
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] tracking-wide uppercase bg-black/45 text-white px-3 py-1 rounded-full font-medium"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
-                    {activeIndex + 1} / {galleryImages.length}
-                  </p>
-                </>
-              )}
+                {multi && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={e => { e.stopPropagation(); goPrev() }}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 z-1 w-11 h-11 rounded-full bg-white/95 border border-(--border) shadow-md flex items-center justify-center text-(--charcoal) hover:bg-(--sage-light) hover:border-(--sage) transition-colors"
+                      aria-label="Imagen anterior"
+                    >
+                      <ChevronLeft size={22} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={e => { e.stopPropagation(); goNext() }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 z-1 w-11 h-11 rounded-full bg-white/95 border border-(--border) shadow-md flex items-center justify-center text-(--charcoal) hover:bg-(--sage-light) hover:border-(--sage) transition-colors"
+                      aria-label="Imagen siguiente"
+                    >
+                      <ChevronRight size={22} />
+                    </button>
+                    <p
+                      className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] tracking-wide uppercase bg-black/50 backdrop-blur-sm text-white px-3.5 py-1.5 rounded-full font-medium"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {activeIndex + 1} / {galleryImages.length}
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
 
             {multi && (
-              <div className="flex gap-3 overflow-x-auto pb-1">
+              <div
+                className="flex gap-2.5 sm:gap-3 overflow-x-auto pb-2 pt-1 -mx-1 px-1 snap-x snap-mandatory"
+                style={{ scrollbarWidth: 'thin' }}
+              >
                 {galleryImages.map((src, i) => (
                   <button
                     key={src + i}
                     type="button"
                     onClick={() => setActiveIndex(i)}
-                    className={`shrink-0 w-[72px] h-[72px] sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 transition-all ${
+                    className={`shrink-0 snap-start w-[88px] h-[88px] sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
                       i === activeIndex
-                        ? 'border-(--sage-dark) ring-2 ring-(--sage-light)'
-                        : 'border-(--border) opacity-80 hover:opacity-100'
+                        ? 'border-(--sage-dark) ring-[3px] ring-(--sage-light) scale-[1.02]'
+                        : 'border-(--border) opacity-75 hover:opacity-100 hover:border-(--sage)'
                     }`}
                     aria-label={`Ver miniatura ${i + 1}`}
                   >
@@ -166,25 +195,22 @@ export default function ProductPage() {
               </div>
             )}
 
-            <p className="text-xs text-(--muted) text-center sm:text-left font-(--font-body)">
+            <p className="flex items-center justify-center sm:justify-start gap-2 text-xs text-(--muted) font-(--font-body)">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-(--sage-light) text-(--sage-dark) text-[13px]" aria-hidden>⤢</span>
               Toca la imagen para verla en grande
             </p>
           </motion.div>
 
-          {/* Info */}
+          {/* Ficha de producto */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.55, delay: 0.06 }}
-            className="flex flex-col"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="rounded-[28px] border border-(--border) bg-(--warm-white) p-6 sm:p-8 lg:p-10 shadow-[0_8px_48px_rgba(42,42,42,0.06)] flex flex-col"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span
-                className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                {product.category}
-              </span>
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              <span className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium">{product.category}</span>
               {product.badge && (
                 <span className="text-[10px] tracking-widest bg-(--sage) text-white px-3 py-1 rounded-full font-medium">
                   {product.badge}
@@ -193,47 +219,66 @@ export default function ProductPage() {
             </div>
 
             <h1
-              className="text-[clamp(2rem,5vw,3rem)] text-(--charcoal) mb-4"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, lineHeight: 1.15 }}
+              className="text-[clamp(1.85rem,4.5vw,2.75rem)] text-(--charcoal) mb-5 leading-[1.12]"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 300 }}
             >
               {product.name}
             </h1>
 
-            <div className="flex items-center gap-2 mb-6">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  className={i < product.rating ? 'fill-amber-400 text-amber-400' : 'text-(--border)'}
-                />
-              ))}
-              <span className="text-xs text-(--muted) ml-1 font-(--font-body)">(48 reseñas)</span>
+            <div className="flex flex-wrap items-center gap-3 mb-8 pb-8 border-b border-(--border)">
+              <div className="flex items-center gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={15}
+                    className={i < product.rating ? 'fill-amber-400 text-amber-400' : 'text-(--border)'}
+                  />
+                ))}
+              </div>
+              <span className="text-sm text-(--muted)">
+                {product.rating.toFixed(1)} · 48 reseñas
+              </span>
             </div>
 
-            <p
-              className="text-[clamp(1.75rem,4vw,2.25rem)] text-(--charcoal) mb-6"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 300 }}
-            >
-              ${product.price.toLocaleString('es-AR')}
-            </p>
+            <div className="mb-8">
+              <div className="flex flex-wrap items-end gap-3 gap-y-1">
+                <p
+                  className="text-[clamp(2rem,5vw,2.75rem)] text-(--charcoal) tabular-nums tracking-tight"
+                  style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+                >
+                  ${product.price.toLocaleString('es-AR')}
+                </p>
+                <span className="text-sm text-(--muted) pb-1.5">ARS · impuestos incluidos</span>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {trustItems.map(({ icon: Icon, label }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-(--sage-dark) bg-(--sage-light)/80 px-3 py-1.5 rounded-full border border-(--sage-light)"
+                  >
+                    <Icon size={13} className="shrink-0 opacity-80" strokeWidth={2} />
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-            <p className="text-[15px] text-(--muted) leading-relaxed mb-8 font-(--font-body) max-w-xl">
+            <p className="text-[15px] sm:text-base text-(--muted) leading-[1.75] mb-10 max-w-prose">
               {product.description}
             </p>
 
-            <div className="mb-8 pb-8 border-b border-(--border)">
-              <h3
-                className="text-sm font-medium mb-3 flex items-center gap-2 text-(--charcoal)"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                <Leaf size={14} className="text-(--sage) shrink-0" />
+            <div className="mb-10">
+              <h3 className="text-sm font-semibold mb-4 flex items-center gap-2 text-(--charcoal) tracking-tight">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-(--sage-light)">
+                  <Leaf size={16} className="text-(--sage)" />
+                </span>
                 Ingredientes principales
               </h3>
               <div className="flex flex-wrap gap-2">
                 {product.ingredients.map(ing => (
                   <span
                     key={ing}
-                    className="text-xs bg-(--sage-light) text-(--sage-dark) px-3 py-1.5 rounded-full font-(--font-body)"
+                    className="text-xs sm:text-[13px] bg-(--cream) text-(--sage-dark) px-3.5 py-2 rounded-xl border border-(--border)/80"
                   >
                     {ing}
                   </span>
@@ -241,52 +286,76 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-              <button
-                type="button"
-                className="flex-1 bg-(--sage-dark) text-white py-4 rounded-[24px] text-sm font-medium hover:bg-(--rose-dark) transition-colors duration-300"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                Agregar al carrito
-              </button>
-              <button
-                type="button"
-                className="border-2 border-(--border) text-(--charcoal) px-8 py-4 rounded-[24px] text-sm font-medium hover:border-(--rose) hover:text-(--rose) transition-colors duration-300"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                ♡ Guardar
-              </button>
-            </div>
+            <div className="mt-auto space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
+                <div>
+                  <span className="block text-xs font-medium text-(--muted) mb-2 uppercase tracking-wide">Cantidad</span>
+                  <div className="inline-flex items-center rounded-2xl border border-(--border) bg-(--cream) p-1 shadow-inner">
+                    <button
+                      type="button"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl text-(--charcoal) hover:bg-(--warm-white) transition-colors disabled:opacity-40"
+                      onClick={() => setQty(q => Math.max(1, q - 1))}
+                      aria-label="Disminuir cantidad"
+                    >
+                      <Minus size={18} strokeWidth={2} />
+                    </button>
+                    <span className="min-w-10 text-center text-sm font-semibold tabular-nums text-(--charcoal)">{qty}</span>
+                    <button
+                      type="button"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl text-(--charcoal) hover:bg-(--warm-white) transition-colors"
+                      onClick={() => setQty(q => q + 1)}
+                      aria-label="Aumentar cantidad"
+                    >
+                      <Plus size={18} strokeWidth={2} />
+                    </button>
+                  </div>
+                </div>
+              </div>
 
-            <div className="mt-6 p-4 bg-(--sage-light) rounded-2xl text-xs text-(--sage-dark) flex items-start gap-3 font-(--font-body)">
-              <span className="text-base shrink-0" aria-hidden>📦</span>
-              <span>Envío a todo el país · Empaque eco-friendly · Entrega en 3-5 días</span>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-3">
+                <button
+                  type="button"
+                  className="inline-flex h-[52px] flex-1 sm:flex-none sm:min-w-[min(100%,260px)] items-center justify-center gap-2 rounded-[26px] bg-(--sage-dark) px-8 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(74,122,92,0.35)] hover:bg-(--rose-dark) transition-all duration-300"
+                >
+                  <ShoppingBag size={18} strokeWidth={2} />
+                  Agregar al carrito
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex h-[52px] flex-1 sm:w-auto sm:px-8 items-center justify-center gap-2 rounded-[26px] border-2 border-(--border) bg-transparent text-(--charcoal) text-sm font-semibold hover:border-(--rose) hover:text-(--rose) hover:bg-(--rose-light)/30 transition-all duration-300"
+                >
+                  <Heart size={18} strokeWidth={2} />
+                  Guardar
+                </button>
+              </div>
+
+              <div className="rounded-2xl border border-(--border) bg-(--cream)/80 px-4 py-3.5 text-xs sm:text-sm text-(--sage-dark) flex items-start gap-3">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--sage-light) text-base" aria-hidden>📦</span>
+                <div className="space-y-0.5 pt-0.5">
+                  <p className="font-semibold text-(--charcoal)">Envío y entrega</p>
+                  <p className="text-(--muted) leading-relaxed">Envío a todo el país · Empaque eco-friendly · Entrega estimada 3 a 5 días hábiles</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Relacionados — estilo landing (Los más vendidos) */}
         {related.length > 0 && (
-          <section className="pt-8 border-t border-(--border)">
-            <div className="text-center mb-12 max-w-xl mx-auto">
-              <span
-                className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                Descubre más
-              </span>
+          <section className="rounded-[28px] border border-(--border) bg-(--warm-white) px-5 py-12 sm:px-8 sm:py-14 shadow-[0_8px_40px_rgba(42,42,42,0.04)]">
+            <div className="text-center mb-10 sm:mb-12 max-w-lg mx-auto">
+              <span className="text-[10px] tracking-[1.2px] uppercase text-(--rose) font-medium">Descubre más</span>
               <h2
-                className="text-[clamp(28px,4vw,44px)] font-light text-(--charcoal) mt-3 mb-3"
+                className="text-[clamp(26px,4vw,40px)] font-light text-(--charcoal) mt-3 mb-3"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 También te puede gustar
               </h2>
-              <p className="text-[15px] text-(--muted) font-(--font-body)">
-                Productos de la misma línea y favoritos que combinan con tu rutina.
+              <p className="text-[15px] text-(--muted)">
+                Productos de la misma línea que combinan con tu rutina.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10">
               {related.map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
               ))}
@@ -295,18 +364,16 @@ export default function ProductPage() {
             <div className="text-center">
               <Link
                 to="/tienda"
-                className="inline-flex items-center gap-2 border-2 border-(--sage-dark) text-(--sage-dark) px-10 py-3.5 rounded-[24px] text-sm font-medium transition-all hover:bg-(--sage-dark) hover:text-white"
-                style={{ fontFamily: 'var(--font-body)' }}
+                className="inline-flex items-center gap-2 border-2 border-(--sage-dark) text-(--sage-dark) px-8 sm:px-10 py-3.5 rounded-[24px] text-sm font-semibold transition-all hover:bg-(--sage-dark) hover:text-white"
               >
                 Ver todos los productos
-                <ArrowRight size={14} />
+                <ArrowRight size={15} />
               </Link>
             </div>
           </section>
         )}
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightboxOpen && (
           <motion.div
